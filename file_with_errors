@@ -1,0 +1,588 @@
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50a700
+   {
+      begin data canary[0x5610ec50a700] = badc0ffee
+      [0](0x5610ec50a708) = 0
+      end data canary[0x5610ec50a710] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50a700
+   {
+      begin data canary[0x5610ec50a700] = badc0ffee
+      [0](0x5610ec50a708) = 0
+      end data canary[0x5610ec50a710] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 1
+
+   data[0x5610ec50a2b0] = 0x5610ec50a700
+   {
+      begin data canary[0x5610ec50a700] = badc0ffee
+      *[0](0x5610ec50a708) = 10
+      end data canary[0x5610ec50a710] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 1
+
+   data[0x5610ec50a2b0] = 0x5610ec50a700
+   {
+      begin data canary[0x5610ec50a700] = badc0ffee
+      *[0](0x5610ec50a708) = 10
+      end data canary[0x5610ec50a710] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 2
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 2
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 4
+   current size = 3
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      [3](0x5610ec50b924) = 0
+      end data canary[0x5610ec50b930] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 4
+   current size = 3
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      [3](0x5610ec50b924) = 0
+      end data canary[0x5610ec50b930] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 4
+   current size = 4
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      end data canary[0x5610ec50b930] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 4
+   current size = 4
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      end data canary[0x5610ec50b930] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 5
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      [5](0x5610ec50b92c) = 0
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(354),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 5
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      [5](0x5610ec50b92c) = 0
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_push() at stack_func.c(431),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 6
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      *[5](0x5610ec50b92c) = 65
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 6
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      *[5](0x5610ec50b92c) = 65
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 5
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 5
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      *[4](0x5610ec50b928) = 55
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 4
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      [4](0x5610ec50b928) = -666
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 4
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      *[3](0x5610ec50b924) = 45
+      [4](0x5610ec50b928) = -666
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 3
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      [3](0x5610ec50b924) = -666
+      [4](0x5610ec50b928) = -666
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 8
+   current size = 3
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      *[2](0x5610ec50b920) = 35
+      [3](0x5610ec50b924) = -666
+      [4](0x5610ec50b928) = -666
+      [5](0x5610ec50b92c) = -666
+      [6](0x5610ec50b930) = 12246509
+      [7](0x5610ec50b934) = 0
+      end data canary[0x5610ec50b940] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 2
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 2
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      *[1](0x5610ec50b91c) = 25
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 1
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      [1](0x5610ec50b91c) = -666
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 2
+   current size = 1
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      *[0](0x5610ec50b918) = 10
+      [1](0x5610ec50b91c) = -666
+      end data canary[0x5610ec50b928] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(489),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 0
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      end data canary[0x5610ec50b920] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(439),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 0
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      end data canary[0x5610ec50b920] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(443),
+[0;31mDump was called because Pop from empty stack(error = -15)[0m 
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 0
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      end data canary[0x5610ec50b920] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
+Called from main() at main.c(30),
+Stack[0x5610ec50a2a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 0
+   current size = 0
+
+   data[0x5610ec50a2b0] = 0x5610ec50b910
+   {
+      begin data canary[0x5610ec50b910] = badc0ffee
+      end data canary[0x5610ec50b920] = badded
+   }
+
+   file_with_errors[0x5610ec50a2d0] = 0x5610ec50a720
+   stack_end_canary = badded
+}
+
