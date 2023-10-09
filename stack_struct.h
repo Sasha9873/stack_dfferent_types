@@ -47,8 +47,8 @@
         int pop_change;
         int push_change;
 
-        size_t gap_after_begin_canary;
-        size_t gap_before_end_canary;
+        int gap_after_begin_canary;
+        int gap_before_end_canary;
 
         FILE* file_with_errors;  
 

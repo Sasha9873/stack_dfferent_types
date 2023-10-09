@@ -7,7 +7,6 @@
 
 	#include "stack_struct.h"
 	#include "errors_enum_naming.h"
-	#include "print_in_different_colours.h"
 	
 	
 
@@ -56,14 +55,24 @@
     elem_type stack_pop(Stack* stk, errors* error);
 
 
+    // /**
+    //  * Checks all in stack.
+    //  *
+    //  * @param [in] stk Pointer to stack
+    //  *
+    //  * @returns ALL_OK if all is normal, code of the error if something is wrong.
+    //  */
+    // errors stack_ok(Stack* stk);   //enum errors stack_ok
+
     /**
      * Checks all in stack.
      *
      * @param [in] stk Pointer to stack
      *
-     * @returns ALL_OK if all is normal, code of the error if something is wrong.
+     * @returns ALL_OK(0) if all is normal, mask of errors if something is wrong.
      */
-    errors stack_ok(Stack* stk);    //enum errors stack_ok
+    size_t stack_ok(Stack* stk);   //enum errors stack_ok
+
 
      /**
      * Prints all infornation about the stack in file_with_errors.
@@ -77,9 +86,9 @@
 
 
 
-    static canary_type* get_begin_canary_pointer(Stack* stk);
-	static canary_type* get_end_canary_pointer(Stack* stk);
-	elem_type* get_data_elem_pointer(Stack* stk, size_t num);
+    /*static canary_type* get_begin_canary_pointer(Stack* stk);
+	static canary_type* get_end_canary_pointer(Stack* stk);*/
+	elem_type* get_data_elem_pointer(Stack* stk, int num);
 
 
 	elem_type* change_capacity(Stack* stk, size_t new_capacity);
