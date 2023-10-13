@@ -4,6 +4,8 @@
 #ifndef STACK_STRUCT_H_INCLUDED
 #define STACK_STRUCT_H_INCLUDED
 
+
+
     #define CHECK 2
 
     #if CHECK >= 2
@@ -52,7 +54,8 @@
         elem_type* data;
 
         int pop_change;
-        int push_change;
+        int push_change;  ///< in what value do realloc
+        int when_pop_change;   ///< when do pop change
 
         int gap_after_begin_canary;
         int gap_before_end_canary;

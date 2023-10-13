@@ -105,7 +105,8 @@ Stack* stack_ctor(errors* error)
 	stk->curr_size = 0;
 	stk->capacity = N_DATA_ELEMS_BEGIN;
     stk->push_change = 2;
-    stk->pop_change = 3;
+    stk->pop_change = 2;
+    stk->when_pop_change = 4;
 
 	#ifdef DATA_USE_CANARY
 
@@ -400,7 +401,7 @@ Stack* stack_dtor(Stack* stk)
             fclose(stk->file_with_errors);
 
         free(stk);
-        //stk = (Stack*)BAD_PTR;
+        stk = (Stack*)BAD_PTR;
 
         return (Stack*)BAD_PTR;
     }
@@ -488,12 +489,6 @@ int stack_push(Stack* stk, elem_type value)
                 }
 
                 *new_end_canary_ptr = old_end_canary_ptr; //replace end canary
-
-
-                if(stk->push_change == 2)
-                    stk->pop_change = 3;
-                else
-                    stk->pop_change = 2;
             }
         }
 
@@ -512,12 +507,6 @@ int stack_push(Stack* stk, elem_type value)
                 stk->data = new_memory;
 
                 stk->capacity = stk->curr_size * stk->push_change;
-
-                if(stk->push_change == 2)
-                    stk->pop_change = 3;
-                else
-                    stk->pop_change = 2;
-
             }
         }
 
@@ -549,7 +538,7 @@ elem_type stack_pop(Stack* stk, errors* error)
 
     --stk->curr_size;
 
-    if(stk->curr_size <= stk->capacity / stk->pop_change)
+    if(stk->curr_size <= stk->capacity / stk->when_pop_change)
     {
         #ifdef DATA_USE_CANARY
             canary_type old_end_canary_ptr = *get_end_canary_pointer(stk);
@@ -577,12 +566,6 @@ elem_type stack_pop(Stack* stk, errors* error)
             }
         #endif // DATA_USE_CANARY
 
-        
-
-        if(stk->pop_change == 2)
-            stk->push_change = 3;
-        else
-            stk->push_change = 2;
     }
 
     CHECKSTACK(ALL_OK)
