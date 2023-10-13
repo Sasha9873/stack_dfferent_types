@@ -1,3 +1,6 @@
+/*!\file
+*/
+
 #ifndef STACK_FUNC_H_INCLUDED
 #define STACK_FUNC_H_INCLUDED
 
@@ -85,14 +88,25 @@
     int stack_dump(Stack* stk, errors reason);
 
 
-
-    /*static canary_type* get_begin_canary_pointer(Stack* stk);
-	static canary_type* get_end_canary_pointer(Stack* stk);*/
+    /**
+     * @param [in] stk Pointer to stack
+     * @param [in] num Index of element we need in Stack data (numeration from 0)
+     * 
+     * @returns pointer to element with number num in Stack data (numeration from 0) or NULL if stk or stk-data consists of NULL or 
+     * BAD_PTR(elem_type *const, defined in "stack_struct.h"), returns NULL also if num < 0
+     */
 	elem_type* get_data_elem_pointer(Stack* stk, int num);
 
 
 	elem_type* change_capacity(Stack* stk, size_t new_capacity);
 
-
+	/**
+     * Counts massif data hash.
+     *
+     * @param [in] stk Pointer to stack
+     *
+     * @returns counted hash value.
+     */
+    long long stack_hash(Stack* stk, errors reason);
    
 #endif

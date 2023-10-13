@@ -1,7 +1,10 @@
+/*!\file
+*/
+
 #ifndef STACK_STRUCT_H_INCLUDED
 #define STACK_STRUCT_H_INCLUDED
 
-    #define CHECK 1
+    #define CHECK 2
 
     #if CHECK >= 2
         #define STACK_USE_HASH
@@ -22,22 +25,26 @@
     }
 
 
-    typedef int elem_type;
-    typedef size_t canary_type;
+    typedef int elem_type;   ///< type of elements in stack data(array)
+    typedef size_t canary_type;  ///< type of canaries in struct Stack and in data of Stack, if they are
 
-    #define ELEM_SPECIFIER "%d"
-    #define CANARY_SPECIFIER "%lx"
+    #define ELEM_SPECIFIER "%d"  ///< specifier to write data elements
+    #define CANARY_SPECIFIER "%lx"  ///< specifier to write canaries
 
-    static elem_type* BAD_PTR = (elem_type*)13;
+    static elem_type* const BAD_PTR = (elem_type* const)13;
     static const canary_type BEGIN_CANARY_VALUE = 0xBADC0FFEE;
     static const canary_type END_CANARY_VALUE = 0xBADDED;
-    static const int N_DATA_ELEMS_BEGIN = 1; ///amount of elems in data after calling constuctor of stack(stack_ctor) 
-    static const int POISON = -666;
+    static const int N_DATA_ELEMS_BEGIN = 1; ///< amount of elems in data after calling constuctor of stack(stack_ctor) 
+    static const int POISON = -666;  ///< Poison, it puts in elements after distroing
 
     typedef struct Stack
     {
         #ifdef STACK_USE_CANARY
-        canary_type begin_canary;
+            canary_type begin_canary;
+        #endif
+
+        #ifdef STACK_USE_HASH
+            long long hash_value;
         #endif
 
         int capacity;
@@ -50,10 +57,10 @@
         int gap_after_begin_canary;
         int gap_before_end_canary;
 
-        FILE* file_with_errors;  
+        FILE* file_with_errors;   ///< file where will be writen errors if debag mode is on 
 
         #ifdef STACK_USE_CANARY
-        canary_type end_canary;
+            canary_type end_canary;
         #endif
 
     } Stack;

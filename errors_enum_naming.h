@@ -1,3 +1,6 @@
+/*!\file
+*/
+
 #ifndef ERRORS_ENUM_H_INCLUDED
 #define ERRORS_ENUM_H_INCLUDED
 

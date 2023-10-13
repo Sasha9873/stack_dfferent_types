@@ -1,22 +1,24 @@
-Called from main() at main.c(12),
+Called from main() at main.c(15),
+Hash is ok
 Stack[0x606000000020](ok)
 {
    stack_begin_canary = badc0ffee
    capacity = 1
    current size = 0
 
-   data[0x606000000030] = 0x603000000040
+   data[0x606000000038] = 0x603000000040
    {
       begin data canary[0x603000000040] = badc0ffee
       [0](0x603000000048) = 0
       end data canary[0x603000000050] = badded
    }
 
-   file_with_errors[0x606000000048] = 0x615000000080
+   file_with_errors[0x606000000050] = 0x615000000080
    stack_end_canary = badded
 }
 
-Called from main() at main.c(33),
+Called from main() at main.c(36),
+Hash is ok
 Stack[0x606000000020]
 
 ERROR_1 = -2. This means: Negative capacity
@@ -27,13 +29,13 @@ ERROR_2 = -9. This means: Capacity smaller then size
    capacity = -1
    current size = 0
 
-   data[0x606000000030] = 0x603000000040
+   data[0x606000000038] = 0x603000000040
    {
       begin data canary[0x603000000040] = badc0ffee
       end data canary[0x603000000048] = 0
    }
 
-   file_with_errors[0x606000000048] = 0x615000000080
+   file_with_errors[0x606000000050] = 0x615000000080
    stack_end_canary = badded
 }
 

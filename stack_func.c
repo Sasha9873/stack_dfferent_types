@@ -1,7 +1,24 @@
+/*!\file
+*/
+
 #include "stack_func.h"
 
+/**
+    * @param [in] stk Pointer to stack
+    * 
+    * @returns pointer to the begin canary in Stack data or NULL if stk or stk-data consists of NULL or BAD_PTR(elem_type *const, 
+    *       defined in "stack_struct.h")
+*/
 static canary_type* get_begin_canary_pointer(Stack* stk);
+
+/**
+    * @param [in] stk Pointer to stack
+    * 
+    * @returns pointer to the end canary in Stack data or NULL if stk or stk-data consists of NULL or BAD_PTR(elem_type *const, 
+    *       defined in "stack_struct.h")
+*/
 static canary_type* get_end_canary_pointer(Stack* stk);
+
 
 static canary_type* get_begin_canary_pointer(Stack* stk)
 {
@@ -150,10 +167,10 @@ size_t stack_ok(Stack* stk)
     #endif // DATA_USE_CANARY
 
     #ifdef STACK_USE_HASH
-        previous_hash_value = hash_value;
-        hash_value = stack_hash(stk, ALL_OK);
+        long long previous_hash_value = stk->hash_value;
+        long long hash_value = stack_hash(stk, ALL_OK);
         if(previous_hash_value != hash_value)
-            error += 1 << abs(WRONG_HASH)s;
+            error += 1 << abs(WRONG_HASH);
     #endif // STACK_USE_HASH
 
     return error;
@@ -233,12 +250,12 @@ int stack_dump(Stack* stk, errors reason)
         
 
     #ifdef STACK_USE_HASH
-        previous_hash_value = hash_value;
-        hash_value = stack_hash(stk, ALL_OK);
+        long long previous_hash_value = stk->hash_value;
+        long long hash_value = stack_hash(stk, ALL_OK);
         if(previous_hash_value == hash_value)
             fprintf(stk->file_with_errors, "Hash is ok\n");
         else
-            fprintf(stk->file_with_errors, "Hash is not ok: previous hash was %d, current hash is %d\n", previous_hash_value, hash_value);
+            fprintf(stk->file_with_errors, "Hash is not ok: previous hash was %lld, current hash is %lld\n", previous_hash_value, hash_value);
     #endif // STACK_USE_HASH
 
     fprintf(stk->file_with_errors, "Stack[%p]", stk);
@@ -573,6 +590,18 @@ elem_type stack_pop(Stack* stk, errors* error)
     return pop_element;
 }
 
+
+long long stack_hash(Stack* stk, errors reason)
+{
+    const long long coeff = 13;
+    long long hash = 0, coeff_pow = 1;
+    for (int index = 0; index < stk->curr_size; ++index)
+    {
+        hash += stk->data[index] * coeff_pow;
+        coeff_pow *= coeff;
+    }
+    return hash;
+}
 
 
 
