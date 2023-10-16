@@ -1,6 +1,8 @@
 /*!\file
 */
 
+//TODO memset after realloc
+
 #include "stack_func.h"
 
 /**
@@ -65,6 +67,8 @@ Stack* stack_ctor(errors* error)
         *error = NOT_MEMORY;
 		return NULL;
     }
+
+    stk->stack_pointer = stk;
 
     #ifdef STACK_USE_CANARY
     	stk->begin_canary = BEGIN_CANARY_VALUE;
@@ -135,7 +139,15 @@ size_t stack_ok(Stack* stk)
 {
     size_t error = ALL_OK;
     if(!stk || stk == (Stack*)BAD_PTR)
+    {
         error += 1 << abs(BAD_STACK_POINTER);
+        return error;
+    }
+
+    if(stk->stack_pointer != stk)
+    {
+        error += 1 << abs(WORK_FROM_COPY);
+    }   
 
     #ifdef STACK_USE_CANARY
     if(stk->begin_canary != BEGIN_CANARY_VALUE)
@@ -155,8 +167,19 @@ size_t stack_ok(Stack* stk)
     if(stk->capacity < stk->curr_size)
         error += 1 << abs(CAP_SMALLER_SIZE);
 
+    #ifdef STACK_USE_HASH
+        long long previous_hash_value = stk->hash_value;
+        long long hash_value = stack_hash(stk, ALL_OK);
+        if(previous_hash_value != hash_value)
+            error += 1 << abs(WRONG_HASH);
+    #endif // STACK_USE_HASH
+
+
     if(stk->data == BAD_PTR || !(stk->data))
+    {
         error += 1 << abs(BAD_DATA_POINTER);
+        return error;
+    }
 
     #ifdef DATA_USE_CANARY
         if(*get_begin_canary_pointer(stk) != BEGIN_CANARY_VALUE)
@@ -167,13 +190,7 @@ size_t stack_ok(Stack* stk)
                 error += 1 << abs(DATA_END_CANARY);
     #endif // DATA_USE_CANARY
 
-    #ifdef STACK_USE_HASH
-        long long previous_hash_value = stk->hash_value;
-        long long hash_value = stack_hash(stk, ALL_OK);
-        if(previous_hash_value != hash_value)
-            error += 1 << abs(WRONG_HASH);
-    #endif // STACK_USE_HASH
-
+    
     return error;
 
 }
@@ -266,8 +283,9 @@ int stack_dump(Stack* stk, errors reason)
         fprintf(stk->file_with_errors, "(ok)\n");
     else
         fprintf(stk->file_with_errors, "\nERROR = %d. This means: %s\n", error, error_names[abs(error)]);*/
-
+    
     size_t error = stack_ok(stk);
+
     if(error == ALL_OK)
         fprintf(stk->file_with_errors, "(ok)\n");
     else
@@ -275,8 +293,10 @@ int stack_dump(Stack* stk, errors reason)
         size_t n_errors = 0;
         size_t error_mask = 1;
         size_t n_bit = 0;
-        while(error)
+
+        while(error)    
         {
+
             if(error & error_mask)
             {
                 if(!n_errors)
@@ -414,7 +434,7 @@ Stack* stack_dtor(Stack* stk)
 
 
     free(stk->data);
-    //stk->data = BAD_PTR;
+    stk->data = BAD_PTR;
     
     stk->curr_size = POISON;
     stk->capacity = POISON;
@@ -423,7 +443,7 @@ Stack* stack_dtor(Stack* stk)
         fclose(stk->file_with_errors);
    
     free(stk);
-    //stk = (Stack*)BAD_PTR;
+    stk = (Stack*)BAD_PTR;
 
     return (Stack*)BAD_PTR;
 }
@@ -443,7 +463,7 @@ elem_type* change_capacity(Stack* stk, size_t new_capacity)
                                 (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary + 2 * sizeof(canary_type));
     #else
         elem_type* new_memory = NULL;
-        new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type));
+        new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type)); //memset
     #endif //DATA_USE_CANARY
     
     return new_memory;
@@ -516,6 +536,9 @@ int stack_push(Stack* stk, elem_type value)
 
     #endif // DATA_USE_CANARY
 
+    
+    stk->hash_value = stack_hash(stk, ALL_OK);
+
     CHECKSTACK(ALL_OK);
 
     return ALL_OK;
@@ -567,6 +590,8 @@ elem_type stack_pop(Stack* stk, errors* error)
         #endif // DATA_USE_CANARY
 
     }
+
+    stk->hash_value = stack_hash(stk, ALL_OK);
 
     CHECKSTACK(ALL_OK);
 

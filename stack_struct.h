@@ -22,11 +22,11 @@
 
     #if DEBAG == 1
         #define CHECKSTACK(reason)\
-            if(!stack_ok(stk) || reason != ALL_OK){\
+            if(stack_ok(stk) != ALL_OK || reason != ALL_OK){\
                     if(stk && stk->file_with_errors)\
                         fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                     else\
-                        fprintf(stdout, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                        fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 stack_dump(stk, reason);\
             }
     #else
@@ -59,7 +59,9 @@
             long long hash_value;
         #endif
 
-        int capacity;
+        struct Stack* stack_pointer; ///< pointer to the object of struct Stack
+
+        int capacity; //size_t
         int curr_size;
         elem_type* data;
 

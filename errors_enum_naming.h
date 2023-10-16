@@ -20,11 +20,12 @@
                         BAD_DATA_POINTER   = -8,   //
                         CAP_SMALLER_SIZE   = -9,   //
                         WRONG_HASH         = -10,   //
-                        NOT_MEMORY         = -11,
-                        BAD_POINTER        = -12,
-                        NOT_POINT_ERROR    = -13,
-                        BAD_FILE_POINTER   = -14,
-                        POP_EMPTY_STK      = -15}
+                        WORK_FROM_COPY     = -11,   //
+                        NOT_MEMORY         = -12,
+                        BAD_POINTER        = -13,
+                        NOT_POINT_ERROR    = -14,
+                        BAD_FILE_POINTER   = -15,
+                        POP_EMPTY_STK      = -16}
     errors;
 
 	static const char *error_names[] = {
@@ -39,7 +40,8 @@
         "Bad data pointer",
         "Capacity smaller then size",    //9
         "Wrong hash",
-        "Not enough memory",
+        "Work with stack from copy",
+        "Not enough memory",  //12
         "Bad pointer",
         "Not pointer to error",
         "Bad file pointer",
