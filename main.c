@@ -13,7 +13,7 @@ int main()
 	//stk->file_with_errors = stderr;
 
     fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
-	stack_dump(stk, 0);
+	stack_dump(stk, ALL_OK);
 
 	stack_push(stk, 10);
 	stack_push(stk, 25);
@@ -35,7 +35,7 @@ int main()
 	stk->capacity = -1;
 
 	fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
-	stack_dump(stk, 0);
+	stack_dump(stk, ALL_OK);
 
 
 	stack_dtor(stk);

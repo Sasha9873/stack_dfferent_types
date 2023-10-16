@@ -27,7 +27,7 @@
                         POP_EMPTY_STK      = -15}
     errors;
 
-	static char *error_names[] = {
+	static const char *error_names[] = {
         "All is ok",
         "Bad stack pointer",
         "Negative capacity",
