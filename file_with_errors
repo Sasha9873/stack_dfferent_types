@@ -1,25 +1,141 @@
 Called from main() at main.c(15),
 Hash is ok
-Stack[0x606000000020](ok)
+Stack[0x560c962102a0](ok)
 {
    stack_begin_canary = badc0ffee
    capacity = 1
    current size = 0
 
-   data[0x606000000038] = 0x603000000040
+   data[0x560c962102b8] = 0x560c96210700
    {
-      begin data canary[0x603000000040] = badc0ffee
-      [0](0x603000000048) = 0
-      end data canary[0x603000000050] = badded
+      begin data canary[0x560c96210700] = badc0ffee
+      [0](0x560c96210708) = 0
+      end data canary[0x560c96210710] = badded
    }
 
-   file_with_errors[0x606000000050] = 0x615000000080
+   file_with_errors[0x560c962102d8] = 0x560c96210720
    stack_end_canary = badded
 }
 
-Called from main() at main.c(36),
+Called from stack_push() at stack_func.c(454),
 Hash is ok
-Stack[0x606000000020]
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96210700
+   {
+      begin data canary[0x560c96210700] = badc0ffee
+      [0](0x560c96210708) = 0
+      end data canary[0x560c96210710] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(571),
+Hash is ok
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96211910
+   {
+      begin data canary[0x560c96211910] = badc0ffee
+      [0](0x560c96211918) = -666
+      end data canary[0x560c96211920] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(527),
+Hash is ok
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96211910
+   {
+      begin data canary[0x560c96211910] = badc0ffee
+      [0](0x560c96211918) = -666
+      end data canary[0x560c96211920] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(531),
+Dump was called because Pop from empty stack(error = -15)
+Hash is ok
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96211910
+   {
+      begin data canary[0x560c96211910] = badc0ffee
+      [0](0x560c96211918) = -666
+      end data canary[0x560c96211920] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(527),
+Hash is ok
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96211910
+   {
+      begin data canary[0x560c96211910] = badc0ffee
+      [0](0x560c96211918) = -666
+      end data canary[0x560c96211920] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from stack_pop() at stack_func.c(531),
+Dump was called because Pop from empty stack(error = -15)
+Hash is ok
+Stack[0x560c962102a0](ok)
+{
+   stack_begin_canary = badc0ffee
+   capacity = 1
+   current size = 0
+
+   data[0x560c962102b8] = 0x560c96211910
+   {
+      begin data canary[0x560c96211910] = badc0ffee
+      [0](0x560c96211918) = -666
+      end data canary[0x560c96211920] = badded
+   }
+
+   file_with_errors[0x560c962102d8] = 0x560c96210720
+   stack_end_canary = badded
+}
+
+Called from main() at main.c(37),
+Hash is ok
+Stack[0x560c962102a0]
 
 ERROR_1 = -2. This means: Negative capacity
 ERROR_2 = -9. This means: Capacity smaller then size
@@ -29,13 +145,13 @@ ERROR_2 = -9. This means: Capacity smaller then size
    capacity = -1
    current size = 0
 
-   data[0x606000000038] = 0x603000000040
+   data[0x560c962102b8] = 0x560c96211910
    {
-      begin data canary[0x603000000040] = badc0ffee
-      end data canary[0x603000000048] = 0
+      begin data canary[0x560c96211910] = badc0ffee
+      end data canary[0x560c96211918] = fffffd66fffffd66
    }
 
-   file_with_errors[0x606000000050] = 0x615000000080
+   file_with_errors[0x560c962102d8] = 0x560c96210720
    stack_end_canary = badded
 }
 

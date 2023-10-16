@@ -568,7 +568,7 @@ elem_type stack_pop(Stack* stk, errors* error)
 
     }
 
-    CHECKSTACK(ALL_OK)
+    CHECKSTACK(ALL_OK);
 
     return pop_element;
 }

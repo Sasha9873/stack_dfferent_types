@@ -4,7 +4,7 @@
 #ifndef STACK_STRUCT_H_INCLUDED
 #define STACK_STRUCT_H_INCLUDED
 
-
+    #define DEBAG 1
 
     #define CHECK 2
 
@@ -17,14 +17,24 @@
         #define DATA_USE_CANARY
     #endif // CHECK
 
-    #define CHECKSTACK(reason)\
-        if(!stack_ok(stk) || reason != ALL_OK){\
-            if(stk && stk->file_with_errors)\
-                fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
-            else\
-                fprintf(stdout, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
-        stack_dump(stk, reason);\
-    }
+    #undef CHECK
+
+
+    #if DEBAG == 1
+        #define CHECKSTACK(reason)\
+            if(!stack_ok(stk) || reason != ALL_OK){\
+                    if(stk && stk->file_with_errors)\
+                        fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                    else\
+                        fprintf(stdout, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                stack_dump(stk, reason);\
+            }
+    #else
+        #define CHECKSTACK(reason)\
+            ;
+    #endif //DEBAG
+
+    #undef DEBAG
 
 
     typedef int elem_type;   ///< type of elements in stack data(array)
