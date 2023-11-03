@@ -37,20 +37,17 @@ static canary_type* get_end_canary_pointer(Stack* stk)
     
     //printf("%p %p %p %p\n", stk->data, (char*)stk->data + sizeof(canary_type), (char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*stk->capacity,
     //(canary_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*stk->capacity + stk->gap_after_begin_canary + stk->gap_before_end_canary));
-    return (canary_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*(size_t)stk->capacity + stk->gap_after_begin_canary \
+    return (canary_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*stk->capacity + stk->gap_after_begin_canary \
                             + stk->gap_before_end_canary);
 }
 
-elem_type* get_data_elem_pointer(Stack* stk, int num)
+elem_type* get_data_elem_pointer(Stack* stk, size_t num)
 {
-    if(num < 0)
-        return NULL;
-
     if(!stk || stk == (Stack*)BAD_PTR || !(stk->data) || stk->data == BAD_PTR)
         return NULL;
 
     #ifdef DATA_USE_CANARY
-        return (elem_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*(size_t)num + stk->gap_after_begin_canary);
+        return (elem_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*num + stk->gap_after_begin_canary);
     #else
         return (elem_type*)((char*)stk->data + sizeof(elem_type)*num);
     #endif //DATA_USE_CANARY
@@ -85,12 +82,12 @@ Stack* stack_ctor(errors* error)
         if(sizeof(elem_type) > sizeof(canary_type))
             stk->gap_after_begin_canary = sizeof(elem_type) - sizeof(canary_type) % sizeof(elem_type);
         else
-            stk->gap_before_end_canary = sizeof(canary_type) - (sizeof(elem_type) * (size_t)N_DATA_ELEMS_BEGIN) % sizeof(canary_type);
+            stk->gap_before_end_canary = sizeof(canary_type) - (sizeof(elem_type) * N_DATA_ELEMS_BEGIN) % sizeof(canary_type);
 
         printf("\nafter = %d before = %d\n", stk->gap_after_begin_canary, stk->gap_before_end_canary);
 
         size_t gap = (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary; 
-		stk->data = (elem_type*)calloc((size_t)N_DATA_ELEMS_BEGIN * sizeof(elem_type) + 2 * sizeof(canary_type) + gap, sizeof(char));
+		stk->data = (elem_type*)calloc(N_DATA_ELEMS_BEGIN * sizeof(elem_type) + 2 * sizeof(canary_type) + gap, sizeof(char));
         //stk->data = (int*)calloc(N_DATA_ELEMS_BEGIN + 2, sizeof(int));
 
 	#else
@@ -157,12 +154,6 @@ size_t stack_ok(Stack* stk)
         error += 1 << abs(WRONG_END_CANARY);
     #endif // STACK_USE_CANARY
 
-    if(stk->capacity < 0)
-        error += 1 << abs(NEGATIVE_CAPASITY);
-
-    //printf(",m,m = %d\n", stk->curr_size < 0);
-    if(stk->curr_size < 0)
-        error += 1 << abs(NEGATIVE_SIZE);
 
     if(stk->capacity < stk->curr_size)
         error += 1 << abs(CAP_SMALLER_SIZE);
@@ -323,7 +314,7 @@ int stack_dump(Stack* stk, errors reason)
         fprintf(stk->file_with_errors, "   stack_begin_canary = " CANARY_SPECIFIER "\n", stk->begin_canary);
     #endif // STACK_USE_CANARY
 
-    fprintf(stk->file_with_errors, "   capacity = %d\n   current size = %d\n", stk->capacity, stk->curr_size);
+    fprintf(stk->file_with_errors, "   capacity = %lu\n   current size = %lu\n", stk->capacity, stk->curr_size);
 
     fprintf(stk->file_with_errors, "\n   data[%p] = %p\n   {\n", &stk->data, stk->data);
 
@@ -333,26 +324,36 @@ int stack_dump(Stack* stk, errors reason)
             fprintf(stk->file_with_errors, "      begin data canary[%p] = " CANARY_SPECIFIER "\n", get_begin_canary_pointer(stk), 
                                                                             *get_begin_canary_pointer(stk));
 
-            for(int num = 0; num < stk->capacity; ++num)
+            for(size_t num = 0; num < stk->capacity; ++num)
             {
+                if(num > N_ELEMS_PRINT){
+                    fprintf(stk->file_with_errors, "      ...\n");
+                    break;
+                }
+
                 if(num < stk->curr_size)
                     fprintf(stk->file_with_errors, "      *");
                 else
                     fprintf(stk->file_with_errors, "      ");
                 
-                fprintf(stk->file_with_errors, "[%d](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, (size_t)num), *get_data_elem_pointer(stk, num));
+                fprintf(stk->file_with_errors, "[%lu](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
             }
 
             fprintf(stk->file_with_errors, "      end data canary[%p] = " CANARY_SPECIFIER "\n", get_end_canary_pointer(stk), *get_end_canary_pointer(stk));
         #else
-            for(int num = 0; num < stk->capacity; ++num)
+            for(size_t num = 0; num < stk->capacity; ++num)
             {
+                if(num > N_ELEMS_PRINT){
+                    fprintf(stk->file_with_errors, "      ...\n");
+                    break;
+                }
+
                 if(num <= stk->curr_size - 1)
                     fprintf(stk->file_with_errors, "      *");
                 else
                     fprintf(stk->file_with_errors, "      ");
                 
-                fprintf(stk->file_with_errors, "[%d](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, (size_t)num), *get_data_elem_pointer(stk, num));
+                fprintf(stk->file_with_errors, "[%d](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
             }
         #endif // DATA_USE_CANARY
     }
@@ -427,17 +428,17 @@ Stack* stack_dtor(Stack* stk)
     }
 
     #ifdef DATA_USE_CANARY
-        memset(stk->data, POISON, (size_t)(stk->capacity) * sizeof(elem_type) + 2 * sizeof(canary_type) + (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary);
+        memset(stk->data, POISON, stk->capacity * sizeof(elem_type) + 2 * sizeof(canary_type) + (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary);
     #else
-        memset(stk->data, POISON, (size_t)(stk->capacity) * sizeof(elem_type));
+        memset(stk->data, POISON, stk->capacity * sizeof(elem_type));
     #endif // DATA_USE_CANARY
 
 
     free(stk->data);
     stk->data = BAD_PTR;
     
-    stk->curr_size = POISON;
-    stk->capacity = POISON;
+    stk->curr_size = 0;
+    stk->capacity = 0;
 
     if(stk->file_with_errors)
         fclose(stk->file_with_errors);
@@ -461,14 +462,21 @@ elem_type* change_capacity(Stack* stk, size_t new_capacity)
         elem_type* new_memory = NULL;
         new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type) + 
                                 (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary + 2 * sizeof(canary_type));
+        memset(stk->data + stk->capacity * sizeof(elem_type) + (size_t)stk->gap_after_begin_canary + 
+                    (size_t)stk->gap_before_end_canary + 2 * sizeof(canary_type), (int)(new_capacity - stk->capacity), sizeof(elem_type));
     #else
         elem_type* new_memory = NULL;
-        new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type)); //memset
+        new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type)); 
+        memset(stk->data + stk->capacity * sizeof(elem_type), (int)(new_capacity - stk->capacity), sizeof(elem_type));
     #endif //DATA_USE_CANARY
+
+    if(new_memory)
+        stk->capacity = new_capacity;
     
     return new_memory;
 }
 
+    
 int stack_push(Stack* stk, elem_type value)
 {
     CHECKSTACK(ALL_OK);
@@ -488,7 +496,7 @@ int stack_push(Stack* stk, elem_type value)
         {
             canary_type old_end_canary_ptr = *get_end_canary_pointer(stk);
             
-            if(!(new_memory = change_capacity(stk, (size_t)(stk->curr_size * stk->push_change))))
+            if(!(new_memory = change_capacity(stk, stk->curr_size * stk->push_change)))
             {
                 CHECKSTACK(NOT_MEMORY);
                 return NOT_MEMORY;
@@ -496,9 +504,6 @@ int stack_push(Stack* stk, elem_type value)
             else
             {
                 stk->data = new_memory;
-
-
-                stk->capacity = stk->curr_size * stk->push_change;
 
 
                 canary_type* new_end_canary_ptr = get_end_canary_pointer(stk);
@@ -525,8 +530,6 @@ int stack_push(Stack* stk, elem_type value)
             else
             {
                 stk->data = new_memory;
-
-                stk->capacity = stk->curr_size * stk->push_change;
             }
         }
 
@@ -566,7 +569,7 @@ elem_type stack_pop(Stack* stk, errors* error)
         #ifdef DATA_USE_CANARY
             canary_type old_end_canary_ptr = *get_end_canary_pointer(stk);
 
-            stk->data = change_capacity(stk, (size_t)(stk->capacity / stk->pop_change));
+            stk->data = change_capacity(stk, stk->capacity / stk->pop_change);
             if(!stk->data)
             {
                 CHECKSTACK(NOT_MEMORY);
@@ -574,14 +577,12 @@ elem_type stack_pop(Stack* stk, errors* error)
                 return POISON;
             }
 
-            stk->capacity /= stk->pop_change;
 
             canary_type* new_end_canary_ptr = get_end_canary_pointer(stk);
             *new_end_canary_ptr = old_end_canary_ptr; //change end canary
 
         #else
-            stk->capacity /= stk->pop_change;
-            stk->data = change_capacity(stk, stk->capacity);
+            stk->data = change_capacity(stk, stk->capacity / stk->pop_change);
             if(!stk->data)
             {
                 CHECKSTACK(NOT_MEMORY);
@@ -603,7 +604,7 @@ long long stack_hash(Stack* stk, errors reason)
 {
     const long long coeff = 13;
     long long hash = 0, coeff_pow = 1;
-    for (int index = 0; index < stk->curr_size; ++index)
+    for (size_t index = 0; index < stk->curr_size; ++index)
     {
         hash += stk->data[index] * coeff_pow;
         coeff_pow *= coeff;

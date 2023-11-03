@@ -10,6 +10,9 @@
 
 	#include "stack_struct.h"
 	#include "errors_enum_naming.h"
+
+    
+    static const size_t N_ELEMS_PRINT = 100; ///< Amount of elements will be printed in stack_dump
 	
 	
 
@@ -84,6 +87,8 @@
      *
      * @returns ALL_OK if all is normal, BAD_STACK_POINTER if stk consists of NULL or BAD_PTR(which is written in constants), 
      * BAD_FILE_POINTER if stk->file_with_errors consists of NULL.
+     * 
+     * Prints only N_ELEMS_PRINT (const) in stack
      */
     int stack_dump(Stack* stk, errors reason);
 
@@ -95,7 +100,7 @@
      * @returns pointer to element with number num in Stack data (numeration from 0) or NULL if stk or stk-data consists of NULL or 
      * BAD_PTR(elem_type *const, defined in "stack_struct.h"), returns NULL also if num < 0
      */
-	elem_type* get_data_elem_pointer(Stack* stk, int num);
+	elem_type* get_data_elem_pointer(Stack* stk, size_t num);
 
 
 	elem_type* change_capacity(Stack* stk, size_t new_capacity);
