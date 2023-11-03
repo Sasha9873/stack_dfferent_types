@@ -103,6 +103,14 @@
 	elem_type* get_data_elem_pointer(Stack* stk, size_t num);
 
 
+    /**
+     * Allocates new memory, copy previous data to new one, memset 0...0 after previous data in new data, change stk->capacity
+     * 
+     * @param [in] stk Pointer to stack
+     * @param [in] new_capacity  New capacity we want for data
+     * 
+     * @returns pointer to new memory or NULL if realloc can not allocate new memory
+     */
 	elem_type* change_capacity(Stack* stk, size_t new_capacity);
 
 	/**
