@@ -55,7 +55,7 @@ elem_type* get_data_elem_pointer(Stack* stk, size_t num)
 
 
 
-Stack* stack_ctor(stack_errors* error)
+Stack* stack_ctor(errors* error)
 {
     Stack* stk = (Stack*)calloc(1, sizeof(Stack));
 
@@ -134,7 +134,7 @@ Stack* stack_ctor(stack_errors* error)
 
 size_t stack_ok(Stack* stk)
 {
-    size_t error = ALL_OK;
+    size_t error = 0;
     if(!stk || stk == (Stack*)BAD_PTR)
     {
         error += 1 << abs(BAD_STACK_POINTER);
@@ -186,50 +186,6 @@ size_t stack_ok(Stack* stk)
 
 }
 
-/*stack_errors stack_ok(Stack* stk)
-{
-    if(!stk || stk == (Stack*)BAD_PTR)
-        return BAD_STACK_POINTER;
-
-    #ifdef STACK_USE_CANARY
-    if(stk->begin_canary != BEGIN_CANARY_VALUE)
-        return WRONG_BEGIN_CANARY;
-
-    if(stk->end_canary != END_CANARY_VALUE)
-        return WRONG_END_CANARY;
-    #endif // STACK_USE_CANARY
-
-    if(stk->capacity < 0)
-        return NEGATIVE_CAPASITY;
-
-    //printf(",m,m = %d\n", stk->curr_size < 0);
-    if(stk->curr_size < 0)
-        return NEGATIVE_SIZE;
-
-    if(stk->capacity < stk->curr_size)
-        return CAP_SMALLER_SIZE;
-
-    if(stk->data == BAD_PTR || !(stk->data))
-        return BAD_DATA_POINTER;
-
-    #ifdef DATA_USE_CANARY
-        if(*get_begin_canary_pointer(stk) != BEGIN_CANARY_VALUE)
-            return DATA_BEGIN_CANARY;
-
-        if(*get_end_canary_pointer(stk) != END_CANARY_VALUE)
-            return DATA_END_CANARY;
-    #endif // DATA_USE_CANARY
-
-    #ifdef STACK_USE_HASH
-        previous_hash_value = hash_value;
-        hash_value = stack_hash(stk, ALL_OK);
-        if(previous_hash_value != hash_value)
-            return WROMG_HASH;
-    #endif // STACK_USE_HASH
-
-    return ALL_OK;
-
-}*/
 
 void print_parse_stack_error(stack_errors error, ...) //in va_args file_ptr
 {
@@ -533,7 +489,7 @@ int stack_push(Stack* stk, elem_type value)
 }
 
 
-elem_type stack_pop(Stack* stk, stack_errors* error)
+elem_type stack_pop(Stack* stk, int* error)
 {
     CHECKSTACK(ALL_OK);
 
@@ -585,8 +541,14 @@ elem_type stack_pop(Stack* stk, stack_errors* error)
 }
 
 
-long long stack_hash(Stack* stk, stack_errors reason)
+long long stack_hash(Stack* stk, errors* error)
 {
+    if(!stk || !(stk->data))
+    {
+        *error = BAD_POINTER;
+        return 0;
+    }
+
     const long long coeff = 13;
     long long hash = 0, coeff_pow = 1;
     for (size_t index = 0; index < stk->curr_size; ++index)

@@ -12,6 +12,7 @@
 
     #include "stack_struct.h"
     #include "stack_errors_enum_naming.h"
+    #include "errors_enum_naming.h"
 
     
     static const size_t N_ELEMS_PRINT = 100; ///< Amount of elements will be printed in stack_dump
@@ -26,7 +27,7 @@
      *
      * @returns Pointer to stack
      */
-    Stack* stack_ctor(stack_errors* error);
+    Stack* stack_ctor(errors* error);
 
     /**
      * Puts poison in the data, free data's memory. Puts poison in the pointer to data, in the current_size of data, in the capacity.
@@ -60,7 +61,7 @@
      *
      * @returns Elem which has been poped 
      */
-    elem_type stack_pop(Stack* stk, stack_errors* error);
+    elem_type stack_pop(Stack* stk, int* error);
 
 
     // /**
@@ -120,9 +121,9 @@
      *
      * @param [in] stk Pointer to stack
      *
-     * @returns counted hash value.
+     * @returns counted hash value. Returns 0 and reason = BAD_POINER if !stk or !stk->data
      */
-    long long stack_hash(Stack* stk, stack_errors reason);
+    long long stack_hash(Stack* stk, errors* reason);
 
     /**
      * Parses error and prints in file which can be in va-args or in stderror

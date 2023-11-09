@@ -6,7 +6,7 @@
 
 int main()
 {
-	stack_errors error;
+	errors error;
 	Stack* stk = stack_ctor(&error);
 	Stack copy = *stk;
 
