@@ -127,7 +127,7 @@
     /**
      * Parses error and prints in file which can be in va-args or in stderror
      */
-    void print_parse_error(stack_errors error, ...); //in va_args file_ptr
+    void print_parse_stack_error(stack_errors error, ...); //in va_args file_ptr
 
    
 #endif

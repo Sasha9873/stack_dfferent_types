@@ -1,8 +1,8 @@
 /*!\file
 */
 
-#ifndef ERRORS_ENUM_H_INCLUDED
-#define ERRORS_ENUM_H_INCLUDED
+#ifndef STACK_ERRORS_ENUM_H_INCLUDED
+#define STACK_ERRORS_ENUM_H_INCLUDED
 
 
     #define RED "\033[0;31m"

@@ -231,7 +231,7 @@ size_t stack_ok(Stack* stk)
 
 }*/
 
-void print_parse_error(stack_errors error, ...) //in va_args file_ptr
+void print_parse_stack_error(stack_errors error, ...) //in va_args file_ptr
 {
     va_list args;
     va_start(args, error);
@@ -314,7 +314,7 @@ int stack_dump(Stack* stk, stack_errors reason)
         fprintf(stk->file_with_stack_errors, "(ok)\n");
     else
     {   
-        print_parse_error(error, stk->file_with_stack_errors);
+        print_parse_stack_error(error, stk->file_with_stack_errors);
     }
 
 
