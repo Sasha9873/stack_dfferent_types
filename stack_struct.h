@@ -4,6 +4,8 @@
 #ifndef STACK_STRUCT_H_INCLUDED
 #define STACK_STRUCT_H_INCLUDED
 
+    #include "stdio.h"
+
     #define DEBAG 1
 
     #define CHECK 2
@@ -20,18 +22,22 @@
     #undef CHECK
 
 
-    #if DEBAG == 1
+    #if DEBAG == 0
         #define CHECKSTACK(reason)\
             if(stack_ok(stk) != ALL_OK || reason != ALL_OK){\
-                    if(stk && stk->file_with_errors)\
-                        fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
-                    else\
-                        fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                if(stk && stk->file_with_errors)\
+                    fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                else\
+                    fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 stack_dump(stk, reason);\
             }
     #else
         #define CHECKSTACK(reason)\
-            ;
+            if(stk && stk->file_with_errors)\
+                    fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                else\
+                    fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                stack_dump(stk, reason);
     #endif //DEBAG
 
     #undef DEBAG

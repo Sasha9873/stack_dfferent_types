@@ -24,16 +24,16 @@ static canary_type* get_end_canary_pointer(Stack* stk);
 
 static canary_type* get_begin_canary_pointer(Stack* stk)
 {
-	if(!stk || stk == (Stack*)BAD_PTR || !(stk->data) || stk->data == BAD_PTR)
-		return NULL;
+    if(!stk || stk == (Stack*)BAD_PTR || !(stk->data) || stk->data == BAD_PTR)
+        return NULL;
 
-	return (canary_type*)stk->data;
+    return (canary_type*)stk->data;
 }
 
 static canary_type* get_end_canary_pointer(Stack* stk)
 {
-	if(!stk || stk == (Stack*)BAD_PTR || !(stk->data) || stk->data == BAD_PTR)
-		return NULL;
+    if(!stk || stk == (Stack*)BAD_PTR || !(stk->data) || stk->data == BAD_PTR)
+        return NULL;
     
     //printf("%p %p %p %p\n", stk->data, (char*)stk->data + sizeof(canary_type), (char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*stk->capacity,
     //(canary_type*)((char*)stk->data + sizeof(canary_type) + sizeof(elem_type)*stk->capacity + stk->gap_after_begin_canary + stk->gap_before_end_canary));
@@ -59,23 +59,23 @@ Stack* stack_ctor(errors* error)
 {
     Stack* stk = (Stack*)calloc(1, sizeof(Stack));
 
-	if(!stk)
+    if(!stk)
     {
         *error = NOT_MEMORY;
-		return NULL;
+        return NULL;
     }
 
     stk->stack_pointer = stk;
 
     #ifdef STACK_USE_CANARY
-    	stk->begin_canary = BEGIN_CANARY_VALUE;
-    	stk->end_canary = END_CANARY_VALUE;
+        stk->begin_canary = BEGIN_CANARY_VALUE;
+        stk->end_canary = END_CANARY_VALUE;
     #endif //STACK_USE_CANARY
 
-	printf("%p\n", stk->data);
-	
-	#ifdef DATA_USE_CANARY
-		printf("use\n");
+    printf("%p\n", stk->data);
+    
+    #ifdef DATA_USE_CANARY
+        printf("use\n");
         stk->gap_after_begin_canary = 0;
         stk->gap_before_end_canary = 0;
 
@@ -87,41 +87,41 @@ Stack* stack_ctor(errors* error)
         printf("\nafter = %d before = %d\n", stk->gap_after_begin_canary, stk->gap_before_end_canary);
 
         size_t gap = (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary; 
-		stk->data = (elem_type*)calloc(N_DATA_ELEMS_BEGIN * sizeof(elem_type) + 2 * sizeof(canary_type) + gap, sizeof(char));
+        stk->data = (elem_type*)calloc(N_DATA_ELEMS_BEGIN * sizeof(elem_type) + 2 * sizeof(canary_type) + gap, sizeof(char));
         //stk->data = (int*)calloc(N_DATA_ELEMS_BEGIN + 2, sizeof(int));
 
-	#else
-		printf("does not use\n");
-		stk->data = (elem_type*)calloc(N_DATA_ELEMS_BEGIN, sizeof(elem_type));
+    #else
+        printf("does not use\n");
+        stk->data = (elem_type*)calloc(N_DATA_ELEMS_BEGIN, sizeof(elem_type));
         //stk->data = (int*)calloc(N_DATA_ELEMS_BEGIN, sizeof(int));
 
-	#endif //DATA_USE_CANARY
+    #endif //DATA_USE_CANARY
 
-	if(!stk->data)
-	{
-		*error = NOT_MEMORY;
+    if(!stk->data)
+    {
+        *error = NOT_MEMORY;
         return stk;
-	}
+    }
 
-	stk->curr_size = 0;
-	stk->capacity = N_DATA_ELEMS_BEGIN;
+    stk->curr_size = 0;
+    stk->capacity = N_DATA_ELEMS_BEGIN;
     stk->push_change = 2;
     stk->pop_change = 2;
     stk->when_pop_change = 4;
 
-	#ifdef DATA_USE_CANARY
+    #ifdef DATA_USE_CANARY
 
-		canary_type* beg_canary_ptr = get_begin_canary_pointer(stk);
-		*(beg_canary_ptr) = BEGIN_CANARY_VALUE;
+        canary_type* beg_canary_ptr = get_begin_canary_pointer(stk);
+        *(beg_canary_ptr) = BEGIN_CANARY_VALUE;
 
-		canary_type* end_canary_ptr = get_end_canary_pointer(stk);
-		//printf("%d\n", *end_canary_ptr);
-		*(end_canary_ptr) = END_CANARY_VALUE;
+        canary_type* end_canary_ptr = get_end_canary_pointer(stk);
+        //printf("%d\n", *end_canary_ptr);
+        *(end_canary_ptr) = END_CANARY_VALUE;
 
-		// printf(CANARY_SPECIFIER " " CANARY_SPECIFIER " %d %x\n", *get_begin_canary_pointer(stk), BEGIN_CANARY_VALUE, 0xBADDED, 0xBADDED);
-		// printf(CANARY_SPECIFIER " " CANARY_SPECIFIER " %d %x\n", *get_end_canary_pointer(stk), END_CANARY_VALUE, 0xBADDED, 0xBADDED);
+        // printf(CANARY_SPECIFIER " " CANARY_SPECIFIER " %d %x\n", *get_begin_canary_pointer(stk), BEGIN_CANARY_VALUE, 0xBADDED, 0xBADDED);
+        // printf(CANARY_SPECIFIER " " CANARY_SPECIFIER " %d %x\n", *get_end_canary_pointer(stk), END_CANARY_VALUE, 0xBADDED, 0xBADDED);
 
-	#endif //DATA_USE_CANARY
+    #endif //DATA_USE_CANARY
 
 
     //CHECKSTACK(ALL_OK);
@@ -231,6 +231,45 @@ size_t stack_ok(Stack* stk)
 
 }*/
 
+void print_parse_error(errors error, ...) //in va_args file_ptr
+{
+    va_list args;
+    va_start(args, error);
+    
+    FILE* file_ptr;
+    if(args)
+        file_ptr = va_arg(args, FILE*);
+    else
+        file_ptr = stderr;
+
+    va_end(args);
+
+
+    size_t n_errors = 0;
+    size_t error_mask = 1;
+    size_t n_bit = 0;
+
+    while(error)    
+    {
+        if(error & error_mask)
+        {
+            if(!n_errors)
+                fprintf(file_ptr, "\n\n");
+            if(file_ptr == stderr || file_ptr == stdin)
+                fprintf(file_ptr, RED "ERROR_%lu = -%lu. This means: %s" RST "\n", ++n_errors, n_bit, error_names[n_bit]);
+            else
+                fprintf(file_ptr, "ERROR_%lu = -%lu. This means: %s\n", ++n_errors, n_bit, error_names[n_bit]);
+
+            error -= error_mask;
+        }
+
+        ++n_bit;
+        error_mask <<= 1;
+    }
+
+    fprintf(file_ptr, "\n");
+}
+
 int stack_dump(Stack* stk, errors reason)
 {
     if(!stk || stk == (Stack*)BAD_PTR)
@@ -268,12 +307,6 @@ int stack_dump(Stack* stk, errors reason)
     #endif // STACK_USE_HASH
 
     fprintf(stk->file_with_errors, "Stack[%p]", stk);
-
-    /*errors error = stack_ok(stk);
-    if(error == ALL_OK)
-        fprintf(stk->file_with_errors, "(ok)\n");
-    else
-        fprintf(stk->file_with_errors, "\nERROR = %d. This means: %s\n", error, error_names[abs(error)]);*/
     
     size_t error = stack_ok(stk);
 
@@ -281,30 +314,7 @@ int stack_dump(Stack* stk, errors reason)
         fprintf(stk->file_with_errors, "(ok)\n");
     else
     {   
-        size_t n_errors = 0;
-        size_t error_mask = 1;
-        size_t n_bit = 0;
-
-        while(error)    
-        {
-
-            if(error & error_mask)
-            {
-                if(!n_errors)
-                    fprintf(stk->file_with_errors, "\n\n");
-                if(stk->file_with_errors == stderr || stk->file_with_errors == stdin)
-                    fprintf(stk->file_with_errors, RED "ERROR_%lu = -%lu. This means: %s" RST "\n", ++n_errors, n_bit, error_names[n_bit]);
-                else
-                    fprintf(stk->file_with_errors, "ERROR_%lu = -%lu. This means: %s\n", ++n_errors, n_bit, error_names[n_bit]);
-
-                error -= error_mask;
-            }
-
-            ++n_bit;
-            error_mask <<= 1;
-        }
-
-        fprintf(stk->file_with_errors, "\n");
+        print_parse_error(error, stk->file_with_errors);
     }
 
 
@@ -441,7 +451,10 @@ Stack* stack_dtor(Stack* stk)
     stk->capacity = 0;
 
     if(stk->file_with_errors)
+    {
         fclose(stk->file_with_errors);
+        stk->file_with_errors = NULL;
+    }
    
     free(stk);
     stk = (Stack*)BAD_PTR;
