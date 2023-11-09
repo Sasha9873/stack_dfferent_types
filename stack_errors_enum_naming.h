@@ -22,6 +22,7 @@
     } stack_errors;
 
 	static const char *stack_error_names[] = {
+        "All is ok",
         "Bad stack pointer",
         "Wrong begin stack canary",
         "Wrong end stack canary",

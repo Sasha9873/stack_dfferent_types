@@ -1,7 +1,6 @@
 /*!\file
 */
 
-//TODO memset after realloc
 
 #include "stack_func.h"
 
@@ -230,6 +229,8 @@ int stack_dump(Stack* stk, stack_errors reason)
 {
     if(!stk || stk == (Stack*)BAD_PTR)
     {
+        fprintf(stderr, "Stack[%p]\n{\n}\n", stk);
+
         return BAD_STACK_POINTER;
     }
 
