@@ -9,7 +9,7 @@
     #define RST "\x1b[0m" 
 
 
-    typedef enum errors{ALL_OK             =  0, 
+    typedef enum stack_errors{ALL_OK             =  0, 
                         BAD_STACK_POINTER  = -1,    //
                         WRONG_BEGIN_CANARY = -2,    //
                         WRONG_END_CANARY   = -3,    //
@@ -24,9 +24,9 @@
                         NOT_POINT_ERROR    = -12,
                         BAD_FILE_POINTER   = -13,
                         POP_EMPTY_STK      = -14}
-    errors;
+    stack_errors;
 
-	static const char *error_names[] = {
+	static const char *stack_error_names[] = {
         "All is ok",
         "Bad stack pointer",
         "Wrong begin stack canary",

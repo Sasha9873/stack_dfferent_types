@@ -55,7 +55,7 @@ elem_type* get_data_elem_pointer(Stack* stk, size_t num)
 
 
 
-Stack* stack_ctor(errors* error)
+Stack* stack_ctor(stack_errors* error)
 {
     Stack* stk = (Stack*)calloc(1, sizeof(Stack));
 
@@ -186,7 +186,7 @@ size_t stack_ok(Stack* stk)
 
 }
 
-/*errors stack_ok(Stack* stk)
+/*stack_errors stack_ok(Stack* stk)
 {
     if(!stk || stk == (Stack*)BAD_PTR)
         return BAD_STACK_POINTER;
@@ -231,7 +231,7 @@ size_t stack_ok(Stack* stk)
 
 }*/
 
-void print_parse_error(errors error, ...) //in va_args file_ptr
+void print_parse_error(stack_errors error, ...) //in va_args file_ptr
 {
     va_list args;
     va_start(args, error);
@@ -245,7 +245,7 @@ void print_parse_error(errors error, ...) //in va_args file_ptr
     va_end(args);
 
 
-    size_t n_errors = 0;
+    size_t n_stack_errors = 0;
     size_t error_mask = 1;
     size_t n_bit = 0;
 
@@ -253,12 +253,12 @@ void print_parse_error(errors error, ...) //in va_args file_ptr
     {
         if(error & error_mask)
         {
-            if(!n_errors)
+            if(!n_stack_errors)
                 fprintf(file_ptr, "\n\n");
             if(file_ptr == stderr || file_ptr == stdin)
-                fprintf(file_ptr, RED "ERROR_%lu = -%lu. This means: %s" RST "\n", ++n_errors, n_bit, error_names[n_bit]);
+                fprintf(file_ptr, RED "ERROR_%lu = -%lu. This means: %s" RST "\n", ++n_stack_errors, n_bit, stack_error_names[n_bit]);
             else
-                fprintf(file_ptr, "ERROR_%lu = -%lu. This means: %s\n", ++n_errors, n_bit, error_names[n_bit]);
+                fprintf(file_ptr, "ERROR_%lu = -%lu. This means: %s\n", ++n_stack_errors, n_bit, stack_error_names[n_bit]);
 
             error -= error_mask;
         }
@@ -270,29 +270,29 @@ void print_parse_error(errors error, ...) //in va_args file_ptr
     fprintf(file_ptr, "\n");
 }
 
-int stack_dump(Stack* stk, errors reason)
+int stack_dump(Stack* stk, stack_errors reason)
 {
     if(!stk || stk == (Stack*)BAD_PTR)
     {
         return BAD_STACK_POINTER;
     }
 
-    if(!(stk->file_with_errors))
+    if(!(stk->file_with_stack_errors))
     {
-        stk->file_with_errors = stderr;
+        stk->file_with_stack_errors = stderr;
         //return BAD_FILE_POINTER;
     }
 
     if(reason != 0)
     {
-        //fprint_red(stk->file_with_errors, "Dump was called because %s(error = %d)\n", error_names[abs(reason)], reason);
-        if(stk->file_with_errors != stderr && stk->file_with_errors != stdout)
+        //fprint_red(stk->file_with_stack_errors, "Dump was called because %s(error = %d)\n", stack_error_names[abs(reason)], reason);
+        if(stk->file_with_stack_errors != stderr && stk->file_with_stack_errors != stdout)
         {
-            fprintf(stk->file_with_errors, "Dump was called because %s(error = %d)\n", error_names[abs(reason)], reason);
+            fprintf(stk->file_with_stack_errors, "Dump was called because %s(error = %d)\n", stack_error_names[abs(reason)], reason);
         }
         else
         {
-            fprintf(stk->file_with_errors, RED "Dump was called because %s(error = %d)" RST "\n", error_names[abs(reason)], reason);
+            fprintf(stk->file_with_stack_errors, RED "Dump was called because %s(error = %d)" RST "\n", stack_error_names[abs(reason)], reason);
         }
     }
         
@@ -301,122 +301,94 @@ int stack_dump(Stack* stk, errors reason)
         long long previous_hash_value = stk->hash_value;
         long long hash_value = stack_hash(stk, ALL_OK);
         if(previous_hash_value == hash_value)
-            fprintf(stk->file_with_errors, "Hash is ok\n");
+            fprintf(stk->file_with_stack_errors, "Hash is ok\n");
         else
-            fprintf(stk->file_with_errors, "Hash is not ok: previous hash was %lld, current hash is %lld\n", previous_hash_value, hash_value);
+            fprintf(stk->file_with_stack_errors, "Hash is not ok: previous hash was %lld, current hash is %lld\n", previous_hash_value, hash_value);
     #endif // STACK_USE_HASH
 
-    fprintf(stk->file_with_errors, "Stack[%p]", stk);
+    fprintf(stk->file_with_stack_errors, "Stack[%p]", stk);
     
     size_t error = stack_ok(stk);
 
     if(error == ALL_OK)
-        fprintf(stk->file_with_errors, "(ok)\n");
+        fprintf(stk->file_with_stack_errors, "(ok)\n");
     else
     {   
-        print_parse_error(error, stk->file_with_errors);
+        print_parse_error(error, stk->file_with_stack_errors);
     }
 
 
-    fprintf(stk->file_with_errors, "{\n");
+    fprintf(stk->file_with_stack_errors, "{\n");
 
     #ifdef STACK_USE_CANARY
-        fprintf(stk->file_with_errors, "   stack_begin_canary = " CANARY_SPECIFIER "\n", stk->begin_canary);
+        fprintf(stk->file_with_stack_errors, "   stack_begin_canary = " CANARY_SPECIFIER "\n", stk->begin_canary);
     #endif // STACK_USE_CANARY
 
-    fprintf(stk->file_with_errors, "   capacity = %lu\n   current size = %lu\n", stk->capacity, stk->curr_size);
+    fprintf(stk->file_with_stack_errors, "   capacity = %lu\n   current size = %lu\n", stk->capacity, stk->curr_size);
 
-    fprintf(stk->file_with_errors, "\n   data[%p] = %p\n   {\n", &stk->data, stk->data);
+    fprintf(stk->file_with_stack_errors, "\n   data[%p] = %p\n   {\n", &stk->data, stk->data);
 
     if(stk->data && stk->data != BAD_PTR)
     {
         #ifdef DATA_USE_CANARY
-            fprintf(stk->file_with_errors, "      begin data canary[%p] = " CANARY_SPECIFIER "\n", get_begin_canary_pointer(stk), 
+            fprintf(stk->file_with_stack_errors, "      begin data canary[%p] = " CANARY_SPECIFIER "\n", get_begin_canary_pointer(stk), 
                                                                             *get_begin_canary_pointer(stk));
 
             for(size_t num = 0; num < stk->capacity; ++num)
             {
                 if(num > N_ELEMS_PRINT){
-                    fprintf(stk->file_with_errors, "      ...\n");
+                    fprintf(stk->file_with_stack_errors, "      ...\n");
                     break;
                 }
 
                 if(num < stk->curr_size)
-                    fprintf(stk->file_with_errors, "      *");
+                    fprintf(stk->file_with_stack_errors, "      *");
                 else
-                    fprintf(stk->file_with_errors, "      ");
+                    fprintf(stk->file_with_stack_errors, "      ");
                 
-                fprintf(stk->file_with_errors, "[%lu](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
+                fprintf(stk->file_with_stack_errors, "[%lu](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
             }
 
-            fprintf(stk->file_with_errors, "      end data canary[%p] = " CANARY_SPECIFIER "\n", get_end_canary_pointer(stk), *get_end_canary_pointer(stk));
+            fprintf(stk->file_with_stack_errors, "      end data canary[%p] = " CANARY_SPECIFIER "\n", get_end_canary_pointer(stk), *get_end_canary_pointer(stk));
         #else
             for(size_t num = 0; num < stk->capacity; ++num)
             {
                 if(num > N_ELEMS_PRINT){
-                    fprintf(stk->file_with_errors, "      ...\n");
+                    fprintf(stk->file_with_stack_errors, "      ...\n");
                     break;
                 }
 
                 if(num <= stk->curr_size - 1)
-                    fprintf(stk->file_with_errors, "      *");
+                    fprintf(stk->file_with_stack_errors, "      *");
                 else
-                    fprintf(stk->file_with_errors, "      ");
+                    fprintf(stk->file_with_stack_errors, "      ");
                 
-                fprintf(stk->file_with_errors, "[%d](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
+                fprintf(stk->file_with_stack_errors, "[%d](%p) = " ELEM_SPECIFIER "\n", num, get_data_elem_pointer(stk, num), *get_data_elem_pointer(stk, num));
             }
         #endif // DATA_USE_CANARY
     }
 
     
 
-    fprintf(stk->file_with_errors, "   }\n\n");
+    fprintf(stk->file_with_stack_errors, "   }\n\n");
 
-    if(stk->file_with_errors == stdin)
-        fprintf(stk->file_with_errors, "   file_with_errors[%p] = stdin\n", &stk->file_with_errors);
-    else if(stk->file_with_errors == stderr)
-        fprintf(stk->file_with_errors, "   file_with_errors[%p] = stderr\n", &stk->file_with_errors);
+    if(stk->file_with_stack_errors == stdin)
+        fprintf(stk->file_with_stack_errors, "   file_with_stack_errors[%p] = stdin\n", &stk->file_with_stack_errors);
+    else if(stk->file_with_stack_errors == stderr)
+        fprintf(stk->file_with_stack_errors, "   file_with_stack_errors[%p] = stderr\n", &stk->file_with_stack_errors);
     else
-        fprintf(stk->file_with_errors, "   file_with_errors[%p] = %p\n", &stk->file_with_errors, stk->file_with_errors);
+        fprintf(stk->file_with_stack_errors, "   file_with_stack_errors[%p] = %p\n", &stk->file_with_stack_errors, stk->file_with_stack_errors);
 
 
     #ifdef STACK_USE_CANARY
-        fprintf(stk->file_with_errors, "   stack_end_canary = " CANARY_SPECIFIER "\n", stk->end_canary);
+        fprintf(stk->file_with_stack_errors, "   stack_end_canary = " CANARY_SPECIFIER "\n", stk->end_canary);
     #endif // STACK_USE_CANARY
 
-    fprintf(stk->file_with_errors, "}\n\n");
+    fprintf(stk->file_with_stack_errors, "}\n\n");
 
    return ALL_OK;
 }
 
-
-/*int stack_dtor(Stack* stk)
-{
-    if(!stk || stk == BAD_PTR)
-        return stk;
-
-    if(!(stk->data) || stk->data == BAD_PTR)
-    {
-        stk->data = BAD_PTR;
-        free(stk);
-        stk = BAD_PTR;
-
-        return stk;
-    }
-
-    #ifdef DATA_USE_CANARY
-        memset(stk->data, POISON, (stk->capacity) * sizeof(elem_type) + 2 * sizeof(canary_type));
-    #else
-        memset(stk->data, POISON, (stk->capacity) * sizeof(elem_type));
-    #endif // DATA_USE_CANARY
-
-
-    free(stk->data);
-
-    stk->data = BAD_PTR;
-    stk->curr_size = POISON;
-    stk->capacity = POISON;
-}*/
 
 Stack* stack_dtor(Stack* stk)
 {
@@ -428,8 +400,8 @@ Stack* stack_dtor(Stack* stk)
     if(!(stk->data) || stk->data == BAD_PTR)
     {
         stk->data = BAD_PTR;
-        if(stk->file_with_errors)
-            fclose(stk->file_with_errors);
+        if(stk->file_with_stack_errors)
+            fclose(stk->file_with_stack_errors);
 
         free(stk);
         stk = (Stack*)BAD_PTR;
@@ -450,10 +422,10 @@ Stack* stack_dtor(Stack* stk)
     stk->curr_size = 0;
     stk->capacity = 0;
 
-    if(stk->file_with_errors)
+    if(stk->file_with_stack_errors)
     {
-        fclose(stk->file_with_errors);
-        stk->file_with_errors = NULL;
+        fclose(stk->file_with_stack_errors);
+        stk->file_with_stack_errors = NULL;
     }
    
     free(stk);
@@ -561,7 +533,7 @@ int stack_push(Stack* stk, elem_type value)
 }
 
 
-elem_type stack_pop(Stack* stk, errors* error)
+elem_type stack_pop(Stack* stk, stack_errors* error)
 {
     CHECKSTACK(ALL_OK);
 
@@ -613,7 +585,7 @@ elem_type stack_pop(Stack* stk, errors* error)
 }
 
 
-long long stack_hash(Stack* stk, errors reason)
+long long stack_hash(Stack* stk, stack_errors reason)
 {
     const long long coeff = 13;
     long long hash = 0, coeff_pow = 1;

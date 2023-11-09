@@ -25,16 +25,16 @@
     #if DEBAG == 0
         #define CHECKSTACK(reason)\
             if(stack_ok(stk) != ALL_OK || reason != ALL_OK){\
-                if(stk && stk->file_with_errors)\
-                    fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+                if(stk && stk->file_with_stack_errors)\
+                    fprintf(stk->file_with_stack_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 else\
                     fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 stack_dump(stk, reason);\
             }
     #else
         #define CHECKSTACK(reason)\
-            if(stk && stk->file_with_errors)\
-                    fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
+            if(stk && stk->file_with_stack_errors)\
+                    fprintf(stk->file_with_stack_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 else\
                     fprintf(stderr, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);\
                 stack_dump(stk, reason);
@@ -78,7 +78,7 @@
         int gap_after_begin_canary;
         int gap_before_end_canary;
 
-        FILE* file_with_errors;   ///< file where will be writen errors if debag mode is on 
+        FILE* file_with_stack_errors;   ///< file where will be writen errors if debag mode is on 
 
         #ifdef STACK_USE_CANARY
             canary_type end_canary;

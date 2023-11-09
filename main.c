@@ -6,16 +6,16 @@
 
 int main()
 {
-	errors error;
+	stack_errors error;
 	Stack* stk = stack_ctor(&error);
 	Stack copy = *stk;
 
 
 
-	//stk->file_with_errors = fopen("file_with_errors", "w+");
-	stk->file_with_errors = stderr;
+	//stk->file_with_stack_errors = fopen("file_with_stack_errors", "w+");
+	stk->file_with_stack_errors = stderr;
 
-    fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
+    fprintf(stk->file_with_stack_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
 	stack_dump(stk, ALL_OK);
 
 	stack_push(stk, 25);
@@ -38,14 +38,14 @@ int main()
 
 	// stk->capacity = -1;
 
-	// fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
+	// fprintf(stk->file_with_stack_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
 	// stack_dump(stk, ALL_OK);
 
 
 	stack_dtor(stk);
 
 
-    // fprintf(stk->file_with_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
+    // fprintf(stk->file_with_stack_errors, "Called from %s() at %s(%d),\n", __FUNCTION__, __FILE__, __LINE__);
 	//stack_dump(stk, 0);
 
 

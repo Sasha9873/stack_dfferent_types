@@ -11,7 +11,7 @@
 
 
     #include "stack_struct.h"
-    #include "errors_enum_naming.h"
+    #include "stack_errors_enum_naming.h"
 
     
     static const size_t N_ELEMS_PRINT = 100; ///< Amount of elements will be printed in stack_dump
@@ -26,7 +26,7 @@
      *
      * @returns Pointer to stack
      */
-    Stack* stack_ctor(errors* error);
+    Stack* stack_ctor(stack_errors* error);
 
     /**
      * Puts poison in the data, free data's memory. Puts poison in the pointer to data, in the current_size of data, in the capacity.
@@ -60,7 +60,7 @@
      *
      * @returns Elem which has been poped 
      */
-    elem_type stack_pop(Stack* stk, errors* error);
+    elem_type stack_pop(Stack* stk, stack_errors* error);
 
 
     // /**
@@ -70,29 +70,29 @@
     //  *
     //  * @returns ALL_OK if all is normal, code of the error if something is wrong.
     //  */
-    // errors stack_ok(Stack* stk);   //enum errors stack_ok
+    // stack_errors stack_ok(Stack* stk);   //enum stack_errors stack_ok
 
     /**
      * Checks all in stack.
      *
      * @param [in] stk Pointer to stack
      *
-     * @returns ALL_OK(0) if all is normal, mask of errors if something is wrong.
+     * @returns ALL_OK(0) if all is normal, mask of stack_errors if something is wrong.
      */
-    size_t stack_ok(Stack* stk);   //enum errors stack_ok
+    size_t stack_ok(Stack* stk);   //enum stack_errors stack_ok
 
 
      /**
-     * Prints all infornation about the stack in file_with_errors.
+     * Prints all infornation about the stack in file_with_stack_errors.
      *
      * @param [in] stk Pointer to stack
      *
      * @returns ALL_OK if all is normal, BAD_STACK_POINTER if stk consists of NULL or BAD_PTR(which is written in constants), 
-     * BAD_FILE_POINTER if stk->file_with_errors consists of NULL.
+     * BAD_FILE_POINTER if stk->file_with_stack_errors consists of NULL.
      * 
      * Prints only N_ELEMS_PRINT (const) in stack
      */
-    int stack_dump(Stack* stk, errors reason);
+    int stack_dump(Stack* stk, stack_errors reason);
 
 
     /**
@@ -122,12 +122,12 @@
      *
      * @returns counted hash value.
      */
-    long long stack_hash(Stack* stk, errors reason);
+    long long stack_hash(Stack* stk, stack_errors reason);
 
     /**
      * Parses error and prints in file which can be in va-args or in stderror
      */
-    void print_parse_error(errors error, ...); //in va_args file_ptr
+    void print_parse_error(stack_errors error, ...); //in va_args file_ptr
 
    
 #endif
