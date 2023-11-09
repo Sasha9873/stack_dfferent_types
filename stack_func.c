@@ -506,7 +506,7 @@ elem_type stack_pop(Stack* stk, int* error)
 
     --stk->curr_size;
 
-    if(stk->curr_size <= stk->capacity / stk->when_pop_change)
+    if(stk->curr_size > 0 && stk->curr_size <= stk->capacity / stk->when_pop_change)
     {
         #ifdef DATA_USE_CANARY
             canary_type old_end_canary_ptr = *get_end_canary_pointer(stk);
