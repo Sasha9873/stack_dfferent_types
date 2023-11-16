@@ -19,6 +19,7 @@
                                 WRONG_HASH         = -8,   //
                                 WORK_FROM_COPY     = -9,   //
                                 POP_EMPTY_STK      = -10,
+                                EMPTY_STK          = -11,
     } stack_errors;
 
 	static const char *stack_error_names[] = {
@@ -33,6 +34,7 @@
         "Wrong hash",
         "Work with stack from copy",
         "Pop from empty stack",
+        "Empty stack",
     };
 
 #endif

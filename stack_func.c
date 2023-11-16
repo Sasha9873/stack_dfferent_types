@@ -438,7 +438,7 @@ int stack_push(Stack* stk, elem_type value)
         {
             canary_type old_end_canary_ptr = *get_end_canary_pointer(stk);
             
-            if(!(new_memory = change_capacity(stk, stk->curr_size * stk->push_change)))
+            if(!(new_memory = change_capacity(stk, (stk->curr_size + 1) * stk->push_change)))
             {
                 CHECKSTACK(NOT_MEMORY);
                 return NOT_MEMORY;
@@ -464,7 +464,7 @@ int stack_push(Stack* stk, elem_type value)
     #else
         if(stk->curr_size + 1 > stk->capacity)
         {
-            if(!(new_memory = change_capacity(stk, stk->curr_size * stk->push_change)))
+            if(!(new_memory = change_capacity(stk, (stk->curr_size + 1) * stk->push_change)))
             {
                 CHECKSTACK(NOT_MEMORY);
                 return NOT_MEMORY;
@@ -489,6 +489,23 @@ int stack_push(Stack* stk, elem_type value)
     return ALL_OK;
 }
 
+elem_type stack_top(Stack* stk, int* error)
+{
+    CHECKSTACK(ALL_OK);
+
+    if(stk->curr_size == 0)
+    {
+        CHECKSTACK(EMPTY_STK);
+        *error = EMPTY_STK;
+        return POISON;
+    }
+
+    elem_type top_element = *get_data_elem_pointer(stk, stk->curr_size - 1);
+
+    CHECKSTACK(ALL_OK);
+
+    return top_element;
+}
 
 elem_type stack_pop(Stack* stk, int* error)
 {

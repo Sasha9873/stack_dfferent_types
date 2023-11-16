@@ -57,11 +57,22 @@
      *
      * @param [in] stk Pointer to stack
      * @param [in] error Pointer to error. At the end it consists of the ALL_OK if all is normal, NOT_MEMORY if something
-     * went wrong while allocating memory.
+     * went wrong while realloc memory, POP_EMPTY_STK if stk is empty..
      *
      * @returns Elem which has been poped 
      */
     elem_type stack_pop(Stack* stk, int* error);
+
+    /**
+     * Returns element which is on the top of the stack.
+     *
+     * @param [in] stk Pointer to stack
+     * @param [in] error Pointer to error. At the end it consists of the ALL_OK if all is normal, NOT_MEMORY if something
+     * went wrong while realloc memory, EMPTY_STK if stk is empty.
+     *
+     * @returns Elem which is on the top of the stk 
+     */
+    elem_type stack_top(Stack* stk, int* error);
 
 
     // /**
