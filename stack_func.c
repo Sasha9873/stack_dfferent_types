@@ -408,12 +408,14 @@ elem_type* change_capacity(Stack* stk, size_t new_capacity)
         elem_type* new_memory = NULL;
         new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type) + 
                                 (size_t)stk->gap_after_begin_canary + (size_t)stk->gap_before_end_canary + 2 * sizeof(canary_type));
-        memset(stk->data + stk->capacity * sizeof(elem_type) + (size_t)stk->gap_after_begin_canary + 
+        if(new_memory)
+            memset(new_memory + stk->capacity * sizeof(elem_type) + (size_t)stk->gap_after_begin_canary + 
                     (size_t)stk->gap_before_end_canary + 2 * sizeof(canary_type), (int)(new_capacity - stk->capacity), sizeof(elem_type));
     #else
         elem_type* new_memory = NULL;
         new_memory = (elem_type*)realloc(stk->data, new_capacity * sizeof(elem_type)); 
-        memset(stk->data + stk->capacity * sizeof(elem_type), (int)(new_capacity - stk->capacity), sizeof(elem_type));
+        if(new_memory)
+            memset(new_memory + stk->capacity * sizeof(elem_type), (int)(new_capacity - stk->capacity), sizeof(elem_type));
     #endif //DATA_USE_CANARY
 
     if(new_memory)
