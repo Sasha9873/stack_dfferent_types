@@ -19,16 +19,14 @@ int main()
 	stack_dump(stk, ALL_OK);
 
 	stack_push(stk, 25);
-	printf("stk = %p copy = %p\n", stk, &copy);
-	stack_push(&copy, 10);
-	// stack_push(stk, 35);
+
+	//printf("stk = %p copy = %p\n", stk, &copy);
+	//stack_push(&copy, 10);
+	stack_push(stk, 35);
 	// stack_push(stk, 45);
 	// stack_push(stk, 55);
 	// stack_push(stk, 65);
 
-	printf("%d\n", stack_pop(stk, &error));
-	// stack_pop(stk, &error);
-	// stack_pop(stk, &error);
 	// stack_pop(stk, &error);
 	// stack_pop(stk, &error);
 	// stack_pop(stk, &error);
