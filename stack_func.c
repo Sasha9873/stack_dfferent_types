@@ -283,6 +283,10 @@ int stack_dump(Stack* stk, stack_errors reason)
 
     fprintf(stk->file_with_stack_errors, "   capacity = %lu\n   current size = %lu\n", stk->capacity, stk->curr_size);
 
+    fprintf(stk->file_with_stack_errors, "\n   pop_change = %lu\n   push_change = %lu\n", stk->pop_change, stk->push_change);
+    fprintf(stk->file_with_stack_errors, "   when_pop_change = %lu\n", stk->when_pop_change);
+    fprintf(stk->file_with_stack_errors, "\n   gap_after_begin_canary = %d\n   gap_before_end_canary = %d\n", stk->gap_after_begin_canary, stk->gap_before_end_canary);
+
     fprintf(stk->file_with_stack_errors, "\n   data[%p] = %p\n   {\n", &stk->data, stk->data);
 
     if(stk->data && stk->data != BAD_PTR)
